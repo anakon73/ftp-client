@@ -3,7 +3,7 @@ import * as trpcExpress from '@trpc/server/adapters/express'
 import cors from 'cors'
 import dotenv from 'dotenv'
 import { appRouter } from 'packages/trpc'
-import { createContext } from './trpc/context'
+import { createContext } from './context'
 
 dotenv.config()
 
