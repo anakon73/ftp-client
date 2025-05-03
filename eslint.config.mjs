@@ -9,5 +9,6 @@ export default antfu({
     'import/consistent-type-specifier-style': 'off',
     '@typescript-eslint/consistent-type-definitions': 'off',
     '@typescript-eslint/no-redeclare': 'off',
+    'node/prefer-global/process': 'off',
   },
 })
