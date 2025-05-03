@@ -1,8 +1,8 @@
-import { userRouter } from './routers/user'
+import { ftpRouter } from './routers'
 import { router } from './trpc'
 
 export const appRouter = router({
-  user: userRouter,
+  ftp: ftpRouter,
 })
 
 export * from './types'
