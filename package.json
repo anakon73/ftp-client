@@ -18,6 +18,7 @@
     "@trpc/client": "^11.1.0",
     "@trpc/server": "^11.1.0",
     "@types/node": "^22.14.1",
+    "basic-ftp": "^5.0.5",
     "tsx": "^4.19.3",
     "typescript": "^5.8.3",
     "valibot": "^1.0.0"
