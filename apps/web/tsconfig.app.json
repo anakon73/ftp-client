@@ -5,6 +5,8 @@
 
     "paths": {
       "packages/trpc": ["../../packages/trpc/src"],
+      "packages/trpc/*": ["../../packages/trpc/src/*"],
+      "server/*": ["../server/src/*"],
       "@/*": ["./src/*"]
     },
     /* Linting */
