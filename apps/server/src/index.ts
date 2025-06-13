@@ -4,6 +4,7 @@ import cors from 'cors'
 import dotenv from 'dotenv'
 import { appRouter } from 'packages/trpc'
 import { createContext } from './context'
+import { ftpDownloadRoute } from './routes/ftp.download.route'
 
 dotenv.config()
 
@@ -18,5 +19,7 @@ app.use('/trpc', trpcExpress.createExpressMiddleware({
   router: appRouter,
   createContext,
 }))
+
+app.use(ftpDownloadRoute)
 
 app.listen(3000)
