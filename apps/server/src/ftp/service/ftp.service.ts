@@ -1,3 +1,7 @@
+import fs from 'node:fs'
+import path from 'node:path'
+import type { Writable } from 'node:stream'
+import { createReadStream } from 'streamifier'
 import { type Client, FileType, type FTPResponse } from 'basic-ftp'
 import type { FileEntry } from 'packages/trpc'
 
@@ -33,5 +37,52 @@ export class FtpServiceImpl implements FtpService {
 
   async upload(localPath: string, remotePath: string): Promise<FTPResponse> {
     return await this.client.uploadFrom(localPath, remotePath)
+  }
+
+  async download(remotePath: string, writable: Writable): Promise<void> {
+    await this.client.downloadTo(writable, remotePath)
+  }
+
+  async delete(path: string): Promise<void> {
+    await this.client.remove(path)
+  }
+
+  async rename(oldPath: string, newPath: string): Promise<void> {
+    await this.client.rename(oldPath, newPath)
+  }
+
+  async createDirectory(path: string): Promise<void> {
+    await this.client.ensureDir(path)
+  }
+
+  async move(oldPath: string, newPath: string): Promise<void> {
+    await this.client.rename(oldPath, newPath)
+  }
+
+  async copy(oldPath: string, newPath: string): Promise<void> {
+    const tempPath = path.join(__dirname, 'temp-file')
+
+    try {
+      await this.client.downloadTo(tempPath, oldPath)
+
+      const fileBuffer = fs.readFileSync(tempPath)
+
+      const fileStream = createReadStream(fileBuffer)
+
+      await this.client.uploadFrom(fileStream, newPath)
+    }
+    catch (error) {
+      console.error('FTP copy failed', error)
+      throw error
+    }
+    finally {
+      if (fs.existsSync(tempPath)) {
+        fs.unlinkSync(tempPath)
+      }
+    }
+  }
+
+  close(): void {
+    this.client.close()
   }
 }
