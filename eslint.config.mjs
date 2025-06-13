@@ -10,5 +10,6 @@ export default antfu({
     '@typescript-eslint/consistent-type-definitions': 'off',
     '@typescript-eslint/no-redeclare': 'off',
     'node/prefer-global/process': 'off',
+    'node/prefer-global/buffer': 'off',
   },
 })
