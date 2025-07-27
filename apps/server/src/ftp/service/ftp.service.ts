@@ -2,9 +2,10 @@ import fs from 'node:fs'
 import path from 'node:path'
 import type { Writable } from 'node:stream'
 import { createReadStream } from 'streamifier'
-import { type Client, FileType, type FTPResponse } from 'basic-ftp'
+import type { Client, FTPResponse } from 'basic-ftp'
 import type { FileEntry } from 'packages/trpc'
 
+import { getFileType } from '../../utils/fileType'
 import type { FtpService } from '../types'
 
 export class FtpServiceImpl implements FtpService {
@@ -29,7 +30,7 @@ export class FtpServiceImpl implements FtpService {
 
     return list.map(item => ({
       name: item.name,
-      type: FileType[item.type as unknown as keyof typeof FileType],
+      type: getFileType(item.type),
       size: item.size,
       modifiedAt: item.modifiedAt,
     }))
