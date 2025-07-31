@@ -1,7 +1,13 @@
 <script setup lang="ts">
 import { computed, toRefs } from 'vue'
-import { File, FileSymlink, Folder } from 'lucide-vue-next'
+import { Copy, File, FileSymlink, Folder, Trash2 } from 'lucide-vue-next'
 import type { FileEntry } from 'packages/trpc'
+
+import {
+  ContextMenu,
+  ContextMenuItem,
+  ContextMenuSeparator,
+} from '@/shared/ui/ContextMenu'
 
 interface Props {
   name: string
@@ -54,25 +60,39 @@ const icon = computed(() => {
 </script>
 
 <template>
-  <div
-    class="
-      flex cursor-pointer items-center justify-between rounded-md p-2
-      text-slate-600 transition-colors
-      hover:bg-slate-100
-    "
-    @click="handleClick"
-  >
-    <div class="flex items-center gap-2">
-      <component
-        :is="icon"
-        :size="20"
-      />
-      <p class="font-medium">
-        {{ name }}
-      </p>
+  <ContextMenu>
+    <template #trigger>
+      <div
+        class="
+          flex cursor-pointer items-center justify-between rounded-md p-2
+          text-slate-600 transition-colors
+          hover:bg-slate-100
+        "
+        @click="handleClick"
+      >
+        <div class="flex items-center gap-2">
+          <component
+            :is="icon"
+            :size="20"
+          />
+          <p class="font-medium">
+            {{ name }}
+          </p>
+        </div>
+        <div v-if="size && type === 'file'" class="text-sm text-slate-500">
+          {{ sizeInBytes }}
+        </div>
+      </div>
+    </template>
+
+    <div>
+      <ContextMenuItem :icon="Trash2">
+        Delete
+      </ContextMenuItem>
+      <ContextMenuSeparator />
+      <ContextMenuItem :icon="Copy">
+        Copy
+      </ContextMenuItem>
     </div>
-    <div v-if="size && type === 'file'" class="text-sm text-slate-500">
-      {{ sizeInBytes }}
-    </div>
-  </div>
+  </ContextMenu>
 </template>
