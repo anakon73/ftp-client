@@ -1,8 +1,8 @@
-import { onMounted, onUnmounted, ref } from 'vue'
+import { computed, onMounted, onUnmounted, ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 
-export function useDotdotdot(interval = 300) {
+export function useDots(interval = 300) {
   const dots = ref('')
-
   let timer: ReturnType<typeof setInterval> | null = null
 
   onMounted(() => {
@@ -16,24 +16,29 @@ export function useDotdotdot(interval = 300) {
       clearInterval(timer)
   })
 
-  return dots
+  return { dots }
 }
 
-export function useDotdotdotWithText(text: string, interval = 300) {
-  const dots = ref('')
+export function useDotsWithText(text: string, interval = 300) {
+  const { dots } = useDots(interval)
 
-  let timer: ReturnType<typeof setInterval> | null = null
+  return { dots: computed(() => `${text}${dots.value}`) }
+}
 
-  onMounted(() => {
-    timer = setInterval(() => {
-      dots.value = text + (dots.value.length >= 3 ? '' : `${dots.value}.`)
-    }, interval)
+export function usePathParams() {
+  const router = useRouter()
+  const route = useRoute()
+
+  const path = computed<string>({
+    get: () => {
+      return route.query.path ? String(route.query.path) : '/'
+    },
+    set: (newPath: string) => {
+      router.replace({ query: { ...route.query, path: newPath === '/'
+        ? undefined
+        : newPath } })
+    },
   })
 
-  onUnmounted(() => {
-    if (timer)
-      clearInterval(timer)
-  })
-
-  return dots
+  return path
 }
