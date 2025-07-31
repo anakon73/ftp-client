@@ -6,6 +6,7 @@ import { FtpListItem } from '../list-item'
 
 interface Props {
   items: FileEntry[]
+  path: string
 }
 
 interface Emits {
@@ -21,6 +22,7 @@ const emits = defineEmits<Emits>()
 <template>
   <div class="w-full rounded-md border border-slate-200">
     <div
+      v-if="path !== '/'"
       class="
         flex cursor-pointer items-center justify-between rounded-md p-2
         font-medium text-slate-600 transition-colors
