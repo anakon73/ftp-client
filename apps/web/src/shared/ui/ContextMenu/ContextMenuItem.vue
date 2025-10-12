@@ -4,12 +4,7 @@ import type { LucideIcon } from 'lucide-vue-next'
 
 import { cn } from '@/shared/lib/styles'
 
-interface Props {
-  class?: string
-  icon?: LucideIcon
-}
-
-const props = defineProps<Props>()
+const props = defineProps<{ class?: string, icon?: LucideIcon }>()
 </script>
 
 <template>
