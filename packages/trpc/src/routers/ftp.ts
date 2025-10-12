@@ -1,5 +1,6 @@
 import * as v from 'valibot'
 import { publicProcedure, router } from '../trpc'
+import type { FileEntry } from '../types'
 
 export const ftpRouter = router({
   list: publicProcedure
@@ -13,9 +14,12 @@ export const ftpRouter = router({
       return (await ctx).ftp.upload(input.localPath, input.remotePath)
     }),
   delete: publicProcedure
-    .input(v.object({ path: v.string() }))
+    .input(v.object({
+      path: v.string(),
+      type: v.custom<FileEntry['type']>(() => true),
+    }))
     .mutation(async ({ input, ctx }) => {
-      return (await ctx).ftp.delete(input.path)
+      return (await ctx).ftp.delete(input.path, input.type)
     }),
   rename: publicProcedure
     .input(v.object({ oldPath: v.string(), newPath: v.string() }))
