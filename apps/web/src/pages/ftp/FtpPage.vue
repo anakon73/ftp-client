@@ -31,7 +31,7 @@ function goBack() {
       {{ dots }}
     </div>
     <div v-else-if="isError || items === undefined">
-      <p>Error loading items</p>
+      <p>You got an error loading ftp directory</p>
     </div>
     <FtpList
       v-else
