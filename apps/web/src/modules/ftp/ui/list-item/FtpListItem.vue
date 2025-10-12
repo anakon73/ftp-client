@@ -15,13 +15,9 @@ interface Props {
   type: FileEntry['type']
 }
 
-interface Emits {
-  changePath: [path: string]
-}
-
 const props = defineProps<Props>()
 
-const emits = defineEmits<Emits>()
+const emits = defineEmits<{ changePath: [path: string], delete: [] }>()
 
 const { size, type } = toRefs(props)
 
@@ -65,8 +61,8 @@ const icon = computed(() => {
       <div
         class="
           flex cursor-pointer items-center justify-between rounded-md p-2
-          text-slate-600 transition-colors
-          hover:bg-slate-100
+          text-zinc-200 transition-colors select-none
+          hover:bg-slate-600
         "
         @click="handleClick"
       >
@@ -86,7 +82,7 @@ const icon = computed(() => {
     </template>
 
     <div>
-      <ContextMenuItem :icon="Trash2">
+      <ContextMenuItem :icon="Trash2" @click="emits('delete')">
         Delete
       </ContextMenuItem>
       <ContextMenuSeparator />
