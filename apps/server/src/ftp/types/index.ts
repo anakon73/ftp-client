@@ -7,7 +7,7 @@ export interface FtpService {
   list: (path: string) => Promise<FileEntry[]>
   upload: (localPath: string, remotePath: string) => Promise<FTPResponse>
   download: (remotePath: string, writable: Writable) => Promise<void>
-  delete: (path: string) => Promise<void>
+  delete: (path: string, type: FileEntry['type']) => Promise<void>
   rename: (oldPath: string, newPath: string) => Promise<void>
   createDirectory: (path: string) => Promise<void>
   move: (oldPath: string, newPath: string) => Promise<void>

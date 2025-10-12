@@ -44,8 +44,10 @@ export class FtpServiceImpl implements FtpService {
     await this.client.downloadTo(writable, remotePath)
   }
 
-  async delete(path: string): Promise<void> {
-    await this.client.remove(path)
+  async delete(path: string, type: FileEntry['type']): Promise<void> {
+    if (type === 'directory')
+      await this.client.removeDir(path)
+    else await this.client.remove(path)
   }
 
   async rename(oldPath: string, newPath: string): Promise<void> {
