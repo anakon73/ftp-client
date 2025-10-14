@@ -60,7 +60,7 @@ const icon = computed(() => {
     <template #trigger>
       <div
         class="
-          flex cursor-pointer items-center justify-between rounded-md p-2
+          flex cursor-pointer items-center justify-between gap-2 rounded-md p-2
           text-zinc-200 transition-colors select-none
           hover:bg-slate-600
         "
@@ -71,7 +71,7 @@ const icon = computed(() => {
             :is="icon"
             :size="20"
           />
-          <p class="font-medium">
+          <p class="max-w-4/5 truncate font-medium">
             {{ name }}
           </p>
         </div>

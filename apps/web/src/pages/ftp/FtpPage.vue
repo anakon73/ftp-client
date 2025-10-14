@@ -26,7 +26,7 @@ function goBack() {
 </script>
 
 <template>
-  <div class="mx-auto mt-20 flex max-w-sm justify-center">
+  <div class="mx-auto max-w-xl pt-20">
     <div v-if="isLoading" class="w-16">
       {{ dots }}
     </div>
