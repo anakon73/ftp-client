@@ -4,7 +4,7 @@ import { Folder } from 'lucide-vue-next'
 import type { FileEntry } from 'packages/trpc'
 
 import { usePathParams } from '@/shared/lib/utils'
-import { useFtpDelete } from '../../api'
+import { useFtpDelete, useFtpUpload } from '../../api'
 
 import { FtpListItem } from '../list-item'
 import { FtpDeleteItem } from '../delete-item'
@@ -16,13 +16,18 @@ const emits = defineEmits<{ changePath: [path: string], goBack: [] }>()
 
 const path = usePathParams()
 
-const { mutate } = useFtpDelete(path)
+const { mutate: deleteMutation } = useFtpDelete(path)
+const { mutate: uploadMutation } = useFtpUpload(path)
 
 const selectedItem = ref<FileEntry | null>(null)
 
 function deleteItem(item: FileEntry) {
   selectedItem.value = null
-  mutate({ path: path.value, name: item.name, type: item.type })
+  deleteMutation({ path: path.value, name: item.name, type: item.type })
+}
+
+function uploadItem(file: File) {
+  uploadMutation(file)
 }
 </script>
 
@@ -33,7 +38,7 @@ function deleteItem(item: FileEntry) {
     @delete="deleteItem(selectedItem!)"
   />
   <div>
-    <FtpUpload />
+    <FtpUpload @upload="uploadItem" />
     <div class="rounded-md bg-slate-800">
       <div
         v-if="path !== '/'"

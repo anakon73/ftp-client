@@ -1,26 +1,65 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { useFtpUpload } from '../../api'
+import { Upload } from 'lucide-vue-next'
 
-const currentPath = ref('/ftp-node/')
-const upload = useFtpUpload()
+import { FDialog } from '@/shared/ui/FDialog'
+import { FButton } from '@/shared/ui/FButton'
 
-function handleFileSelect(event: Event) {
-  const file = (event.target as HTMLInputElement).files?.[0]
-  if (file) {
-    upload.mutate({ file, path: currentPath.value })
-  }
+const emits = defineEmits<{ upload: [file: File] }>()
+
+const open = ref(false)
+
+async function onFileChange(e: Event) {
+  const file = (e.target as HTMLInputElement).files?.[0]
+
+  if (!file)
+    return
+
+  emits('upload', file)
 }
 </script>
 
 <template>
-  <div>
-    <input type="file" @change="handleFileSelect">
-    <p v-if="upload.isPending">
-      Uploading...
-    </p>
-    <p v-if="upload.isSuccess">
-      ✅ Uploaded!
-    </p>
+  <div class="mb-2 flex justify-end">
+    <FButton icon variant="secondary" @click="open = true">
+      <Upload class="size-4" />
+    </FButton>
   </div>
+
+  <FDialog :open="open" @close="open = false">
+    <div class="col-span-full">
+      <div
+        class="
+          mt-2 flex justify-center rounded-lg border border-dashed
+          border-white/25 px-6 py-10
+        "
+      >
+        <div class="text-center">
+          <PhotoIcon class="mx-auto size-12 text-gray-600" aria-hidden="true" />
+          <div class="mt-4 flex text-sm/6 text-gray-400">
+            <label
+              for="file-upload"
+              class="
+                relative cursor-pointer rounded-md bg-transparent font-semibold
+                text-indigo-400
+                hover:text-indigo-300
+              "
+            >
+              <span>Upload a file</span>
+              <input
+                id="file-upload"
+                name="file-upload"
+                type="file"
+                class="sr-only"
+                @change="onFileChange"
+              >
+            </label>
+          </div>
+          <p class="text-xs/5 text-gray-400">
+            Size up to 100MB
+          </p>
+        </div>
+      </div>
+    </div>
+  </FDialog>
 </template>
