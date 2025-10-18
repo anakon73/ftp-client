@@ -2,7 +2,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import type { Writable } from 'node:stream'
 import { createReadStream } from 'streamifier'
-import type { Client, FTPResponse } from 'basic-ftp'
+import type { Client } from 'basic-ftp'
 import type { FileEntry } from 'packages/trpc'
 
 import { getFileType } from '../../utils/fileType'
@@ -34,10 +34,6 @@ export class FtpServiceImpl implements FtpService {
       size: item.size,
       modifiedAt: item.modifiedAt,
     }))
-  }
-
-  async upload(localPath: string, remotePath: string): Promise<FTPResponse> {
-    return await this.client.uploadFrom(localPath, remotePath)
   }
 
   async download(remotePath: string, writable: Writable): Promise<void> {

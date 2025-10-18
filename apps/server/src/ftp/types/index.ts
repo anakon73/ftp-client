@@ -5,7 +5,6 @@ import type { Writable } from 'node:stream'
 export interface FtpService {
   readonly client: Client
   list: (path: string) => Promise<FileEntry[]>
-  upload: (localPath: string, remotePath: string) => Promise<FTPResponse>
   download: (remotePath: string, writable: Writable) => Promise<void>
   delete: (path: string, type: FileEntry['type']) => Promise<void>
   rename: (oldPath: string, newPath: string) => Promise<void>
