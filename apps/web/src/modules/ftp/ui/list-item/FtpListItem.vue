@@ -70,12 +70,23 @@ const icon = computed(() => {
           <component
             :is="icon"
             :size="20"
+            class="shrink-0"
           />
-          <p class="max-w-4/5 truncate font-medium">
+          <p
+            class="
+              max-w-[150px] truncate font-medium
+              min-[340px]:max-w-[200px]
+              min-[460px]:max-w-xs
+              min-[560px]:max-w-md
+            "
+          >
             {{ name }}
           </p>
         </div>
-        <div v-if="size && type === 'file'" class="text-sm text-slate-500">
+        <div
+          v-if="size && type === 'file'"
+          class="text-sm whitespace-nowrap text-slate-500"
+        >
           {{ sizeInBytes }}
         </div>
       </div>
