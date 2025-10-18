@@ -8,17 +8,19 @@ interface Props {
   as?: Component | AsTag
   type?: HTMLButtonElement['type']
   variant?: Variant
+  icon?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
   as: 'button',
   type: 'button',
   variant: 'primary',
+  icon: false,
 })
 </script>
 
 <template>
-  <component :is="as" :class="cn(button({ variant }), props.class ?? '')">
+  <component :is="as" :class="cn(button({ variant, icon }), props.class ?? '')">
     <slot />
   </component>
 </template>

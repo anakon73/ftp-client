@@ -1,7 +1,12 @@
 import { cva } from 'class-variance-authority'
 import type { ArrayToUnion, ClassRecord } from '@/shared/lib/styles'
 
-export const variant = ['primary', 'success', 'destructive'] as const
+export const variant = [
+  'primary',
+  'secondary',
+  'success',
+  'destructive',
+] as const
 
 export type Variant = ArrayToUnion<typeof variant>
 
@@ -16,7 +21,12 @@ export const button = cva(
         primary: 'text-white bg-indigo-600',
         success: 'text-white bg-emerald-600',
         destructive: 'text-white bg-rose-600',
+        secondary: 'text-zinc-200 bg-slate-800',
       } satisfies ClassRecord<Variant>,
+      icon: {
+        false: '',
+        true: 'p-2',
+      },
     },
   },
 )
