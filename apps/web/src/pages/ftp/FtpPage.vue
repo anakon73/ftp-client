@@ -1,5 +1,7 @@
 <script setup lang="ts">
+import { computed } from 'vue'
 import { FtpList, useFtpList } from '@/modules/ftp'
+import { sortFtpEntries } from '@/modules/ftp/lib'
 import { useDotsWithText, usePathParams } from '@/shared/lib/utils'
 
 const path = usePathParams()
@@ -23,10 +25,12 @@ function goBack() {
 
   path.value = `/${segments.join('/')}`
 }
+
+const sortedEntries = computed(() => sortFtpEntries(items.value ?? []))
 </script>
 
 <template>
-  <div class="mx-auto max-w-xl pt-20">
+  <div class="mx-auto max-w-xl px-4 py-20">
     <div v-if="isLoading" class="w-16">
       {{ dots }}
     </div>
@@ -36,7 +40,7 @@ function goBack() {
     <FtpList
       v-else
       :path="path"
-      :items="items"
+      :items="sortedEntries"
       @go-back="goBack"
       @change-path="handleChangePath"
     />
