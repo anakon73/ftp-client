@@ -1,22 +1,42 @@
 <script setup lang="ts">
+import { toRefs } from 'vue'
+import type { FileEntry } from 'packages/trpc'
+
 import { FButton } from '@/shared/ui/FButton'
 import { FDialog, FDialogTitle } from '@/shared/ui/FDialog'
 
-defineProps<{ open: boolean }>()
+import { useFtpDelete } from '../../api'
 
-defineEmits<{ close: [], delete: [] }>()
+const props = defineProps<{
+  open: boolean
+  item: FileEntry | null
+  path: string
+}>()
+
+const emits = defineEmits<{ close: [] }>()
+
+const { item, path } = toRefs(props)
+
+const { mutate } = useFtpDelete(path)
+
+function deleteItem() {
+  if (!item.value)
+    return
+
+  mutate(item.value, { onSuccess: () => emits('close') })
+}
 </script>
 
 <template>
-  <FDialog :open="open" @close="$emit('close')">
+  <FDialog :open="open" @close="emits('close')">
     <FDialogTitle class="mb-5">
       Are you sure?
     </FDialogTitle>
     <div class="flex justify-end gap-2">
-      <FButton variant="destructive" @click="$emit('close')">
+      <FButton variant="destructive" @click="emits('close')">
         No
       </FButton>
-      <FButton variant="success" @click="$emit('delete')">
+      <FButton variant="success" @click="deleteItem">
         Yes
       </FButton>
     </div>

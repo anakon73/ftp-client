@@ -1,11 +1,17 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, toRefs } from 'vue'
 import { Upload } from 'lucide-vue-next'
 
 import { FDialog } from '@/shared/ui/FDialog'
 import { FButton } from '@/shared/ui/FButton'
 
-const emits = defineEmits<{ upload: [file: File] }>()
+import { useFtpUpload } from '../../api'
+
+const props = defineProps<{ path: string }>()
+
+const { path } = toRefs(props)
+
+const { mutate } = useFtpUpload(path)
 
 const open = ref(false)
 
@@ -15,16 +21,14 @@ async function onFileChange(e: Event) {
   if (!file)
     return
 
-  emits('upload', file)
+  mutate(file, { onSuccess: () => open.value = false })
 }
 </script>
 
 <template>
-  <div class="mb-2 flex justify-end">
-    <FButton icon variant="secondary" @click="open = true">
-      <Upload class="size-4" />
-    </FButton>
-  </div>
+  <FButton icon variant="secondary" @click="open = true">
+    <Upload class="size-4" />
+  </FButton>
 
   <FDialog :open="open" @close="open = false">
     <div class="col-span-full">
@@ -35,7 +39,7 @@ async function onFileChange(e: Event) {
         "
       >
         <div class="text-center">
-          <PhotoIcon class="mx-auto size-12 text-gray-600" aria-hidden="true" />
+          <Upload class="mx-auto size-12 text-gray-600" aria-hidden="true" />
           <div class="mt-4 flex text-sm/6 text-gray-400">
             <label
               for="file-upload"

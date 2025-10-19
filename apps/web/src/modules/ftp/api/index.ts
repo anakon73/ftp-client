@@ -21,10 +21,10 @@ export function useFtpDelete(currentPath: Ref<string>) {
   const { refreshQuery } = useRefreshQuery()
 
   return useMutation({
-    mutationFn: async (
-      { path, name, type,
-      }: { path: string, name: string, type: FileEntry['type'] }) =>
-      await trpc.ftp.delete.mutate({ path: `${path}/${name}`, type }),
+    mutationFn: async (item: FileEntry) =>
+      await trpc.ftp.delete.mutate(
+        { path: `${currentPath.value}/${item.name}`, type: item.type },
+      ),
     onSuccess: () => {
       refreshQuery(keys.all(currentPath), true)
     },
