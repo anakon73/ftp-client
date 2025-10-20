@@ -50,8 +50,8 @@ export class FtpServiceImpl implements FtpService {
     await this.client.rename(oldPath, newPath)
   }
 
-  async createDirectory(path: string): Promise<void> {
-    await this.client.ensureDir(path)
+  async createDirectory(path: string, name: string): Promise<void> {
+    await this.client.ensureDir(`${path}/${name}`)
   }
 
   async move(oldPath: string, newPath: string): Promise<void> {
