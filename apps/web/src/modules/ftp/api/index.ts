@@ -10,6 +10,8 @@ const keys = {
   all: (path: Ref<string>) => (['ftp', path]),
 } as const
 
+export { keys as ftpKeys }
+
 export function useFtpList(path: Ref<string>) {
   return useQuery({
     queryKey: keys.all(path),
