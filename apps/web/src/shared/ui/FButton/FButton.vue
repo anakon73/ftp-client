@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import type { Component } from 'vue'
+import type { ButtonHTMLAttributes, Component } from 'vue'
 import { type AsTag, type ClassValue, cn } from '@/shared/lib/styles'
 import { button, type Variant } from '.'
 
-interface Props {
+interface Props extends /* @vue-ignore */ ButtonHTMLAttributes {
   class?: ClassValue
   as?: Component | AsTag
   type?: HTMLButtonElement['type']
