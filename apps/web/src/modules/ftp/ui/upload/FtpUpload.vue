@@ -27,7 +27,7 @@ async function onFileChange(e: Event) {
 
 <template>
   <FButton icon variant="secondary" @click="open = true">
-    <Upload class="size-4" />
+    <Upload :size="16" />
   </FButton>
 
   <FDialog :open="open" @close="open = false">
