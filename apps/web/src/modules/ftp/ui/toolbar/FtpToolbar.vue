@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { ArrowLeft } from 'lucide-vue-next'
 import { FButton } from '@/shared/ui/FButton'
+
 import { FtpUpload } from '../upload'
+import { FtpCreateDir } from '../create-dir'
 
 defineProps<{ path: string }>()
 defineEmits<{ goBack: [] }>()
@@ -17,6 +19,9 @@ defineEmits<{ goBack: [] }>()
     >
       <ArrowLeft :size="16" />
     </FButton>
-    <FtpUpload :path="path" />
+    <div class="flex gap-2">
+      <FtpCreateDir :path="path" />
+      <FtpUpload :path="path" />
+    </div>
   </div>
 </template>
