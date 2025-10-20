@@ -22,9 +22,9 @@ export const ftpRouter = router({
       return (await ctx).ftp.rename(input.oldPath, input.newPath)
     }),
   createDirectory: publicProcedure
-    .input(v.object({ path: v.string() }))
+    .input(v.object({ path: v.string(), name: v.string() }))
     .mutation(async ({ input, ctx }) => {
-      return (await ctx).ftp.createDirectory(input.path)
+      return (await ctx).ftp.createDirectory(input.path, input.name)
     }),
   move: publicProcedure
     .input(v.object({ oldPath: v.string(), newPath: v.string() }))
