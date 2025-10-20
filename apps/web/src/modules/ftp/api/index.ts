@@ -25,9 +25,7 @@ export function useFtpDelete(currentPath: Ref<string>) {
       await trpc.ftp.delete.mutate(
         { path: `${currentPath.value}/${item.name}`, type: item.type },
       ),
-    onSuccess: () => {
-      refreshQuery(keys.all(currentPath), true)
-    },
+    onSuccess: () => refreshQuery(keys.all(currentPath), true),
   })
 }
 
@@ -43,8 +41,16 @@ export function useFtpUpload(currentPath: Ref<string>) {
         headers: { 'Content-Type': 'multipart/form-data' },
       })
     },
-    onSuccess: () => {
-      refreshQuery(keys.all(currentPath), true)
-    },
+    onSuccess: () => refreshQuery(keys.all(currentPath), true),
+  })
+}
+
+export function useFtpCreateDir(currentPath: Ref<string>) {
+  const { refreshQuery } = useRefreshQuery()
+
+  return useMutation({
+    mutationFn: async (name: string) =>
+      await trpc.ftp.createDirectory.mutate({ path: currentPath.value, name }),
+    onSuccess: () => refreshQuery(keys.all(currentPath), true),
   })
 }
