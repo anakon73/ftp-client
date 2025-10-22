@@ -7,7 +7,7 @@ import { FButton } from '@/shared/ui/FButton'
 import { FDialog } from '@/shared/ui/FDialog'
 import { FInput } from '@/shared/ui/FInput'
 
-import { useFtpCreateDir } from '../../api'
+import { useFtpCreateDir } from '../../'
 
 const props = defineProps<{ path: string }>()
 
