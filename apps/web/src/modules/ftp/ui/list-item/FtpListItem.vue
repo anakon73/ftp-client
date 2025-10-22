@@ -1,6 +1,12 @@
 <script setup lang="ts">
 import { computed, toRefs } from 'vue'
-import { Copy, File, FileSymlink, Folder, Trash2 } from 'lucide-vue-next'
+import {
+  File,
+  FilePen,
+  FileSymlink,
+  Folder,
+  Trash2,
+} from 'lucide-vue-next'
 import type { FileEntry } from 'packages/trpc'
 
 import {
@@ -15,9 +21,15 @@ interface Props {
   type: FileEntry['type']
 }
 
+interface Emits {
+  changePath: [path: string]
+  delete: []
+  rename: []
+}
+
 const props = defineProps<Props>()
 
-const emits = defineEmits<{ changePath: [path: string], delete: [] }>()
+const emits = defineEmits<Emits>()
 
 const { size, type } = toRefs(props)
 
@@ -97,8 +109,8 @@ const icon = computed(() => {
         Delete
       </ContextMenuItem>
       <ContextMenuSeparator />
-      <ContextMenuItem :icon="Copy">
-        Copy
+      <ContextMenuItem :icon="FilePen" @click="emits('rename')">
+        Rename
       </ContextMenuItem>
     </div>
   </ContextMenu>
