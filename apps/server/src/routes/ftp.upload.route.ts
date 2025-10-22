@@ -29,6 +29,7 @@ router.post(
 
     try {
       const file = req.file
+      const currentPath = req.body.currentPath || '/ftp-node'
       if (!file) {
         return res.status(400).json({ error: 'No file uploaded' })
       }
@@ -39,8 +40,10 @@ router.post(
 
       await fs.writeFile(targetPath, file.buffer)
 
+      const remotePath = path.posix.join(currentPath, file.originalname)
+
       const client = await getFtpClient()
-      await client.uploadFrom(targetPath, `/ftp-node/${file.originalname}`)
+      await client.uploadFrom(targetPath, remotePath)
 
       await fs.unlink(targetPath)
 
