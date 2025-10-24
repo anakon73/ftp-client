@@ -24,7 +24,7 @@ function handleChangePath(index: number) {
 </script>
 
 <template>
-  <div v-if="parts.length > 1" class="font-semibold text-zinc-200">
+  <div class="font-semibold text-zinc-200">
     <template v-for="(part, index) in parts" :key="index">
       <button
         :class="cn(
@@ -38,10 +38,7 @@ function handleChangePath(index: number) {
       >
         {{ part }}
       </button>
-      <span
-        v-if="index !== parts.length - 1"
-        class="cursor-default px-2 text-zinc-200/70"
-      >/</span>
+      <span class="cursor-default px-2 text-zinc-200/70">/</span>
     </template>
   </div>
 </template>
