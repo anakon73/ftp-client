@@ -13,7 +13,7 @@ defineEmits<{ close: [] }>()
 </script>
 
 <template>
-  <DialogRoot :open="open" @update:open="$emit('close')">
+  <DialogRoot :open @update:open="$emit('close')">
     <DialogPortal>
       <FDialogOverlay @click="$emit('close')" />
       <DialogContent

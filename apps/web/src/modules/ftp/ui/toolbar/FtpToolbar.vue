@@ -15,14 +15,14 @@ defineEmits<{ goBack: [], changePath: [path: string] }>()
   <div class="mb-2">
     <div class="mb-2 flex justify-between">
       <div class="flex gap-2">
-        <FtpRefreshButton :path="path" />
-        <FtpBackButton :path="path" @go-back="$emit('goBack')" />
+        <FtpRefreshButton :path />
+        <FtpBackButton :path @go-back="$emit('goBack')" />
       </div>
       <div class="flex gap-2">
-        <FtpCreateDir :path="path" />
-        <FtpUpload :path="path" />
+        <FtpCreateDir :path />
+        <FtpUpload :path />
       </div>
     </div>
-    <FtpBreadcrumb :path="path" @change-path="$emit('changePath', $event)" />
+    <FtpBreadcrumb :path @change-path="$emit('changePath', $event)" />
   </div>
 </template>

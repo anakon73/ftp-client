@@ -32,7 +32,7 @@ function rename() {
 </script>
 
 <template>
-  <FDialog :open="open" @close="close">
+  <FDialog :open @close="close">
     <FDialogTitle class="mb-2">
       Rename
     </FDialogTitle>

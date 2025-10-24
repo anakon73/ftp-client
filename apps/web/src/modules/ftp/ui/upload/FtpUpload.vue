@@ -30,7 +30,7 @@ async function onFileChange(e: Event) {
     <Upload :size="16" />
   </FButton>
 
-  <FDialog :open="open" @close="open = false">
+  <FDialog :open @close="open = false">
     <div class="col-span-full">
       <div
         class="

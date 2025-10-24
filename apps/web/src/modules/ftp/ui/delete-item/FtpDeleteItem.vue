@@ -28,7 +28,7 @@ function deleteItem() {
 </script>
 
 <template>
-  <FDialog :open="open" @close="emits('close')">
+  <FDialog :open @close="emits('close')">
     <FDialogTitle class="mb-5">
       Are you sure?
     </FDialogTitle>

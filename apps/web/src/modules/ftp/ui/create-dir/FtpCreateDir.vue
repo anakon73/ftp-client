@@ -36,7 +36,7 @@ onKeyDown('Enter', createDir)
     <FolderPlus :size="16" />
   </FButton>
 
-  <FDialog :open="open" @close="onClose">
+  <FDialog :open @close="onClose">
     <div class="flex items-center justify-between gap-4">
       <FInput v-model="name" />
       <FButton icon variant="success" @click="createDir">
