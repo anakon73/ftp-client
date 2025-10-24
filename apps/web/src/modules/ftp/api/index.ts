@@ -32,19 +32,16 @@ export function useFtpDelete(currentPath: Ref<string>) {
 }
 
 export function useFtpUpload(currentPath: Ref<string>) {
-  const { refreshQuery } = useRefreshQuery()
-
   return useMutation({
     mutationFn: async (file: File) => {
-      const formData = new FormData()
-      formData.append('file', file)
-      formData.append('currentPath', currentPath.value)
-
-      await axios.post('http://localhost:3000/upload', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' },
+      const arrayBuffer = await file.arrayBuffer()
+      const base64 = btoa(String.fromCharCode(...new Uint8Array(arrayBuffer)))
+      return trpc.ftp.upload.mutate({
+        path: currentPath.value,
+        fileName: file.name,
+        base64,
       })
     },
-    onSuccess: () => refreshQuery(keys.all(currentPath), true),
   })
 }
 
@@ -70,5 +67,31 @@ export function useFtpRename(currentPath: Ref<string>) {
         newPath: `${currentPath.value}/${newName}`,
       }),
     onSuccess: () => refreshQuery(keys.all(currentPath), true),
+  })
+}
+
+export function useFtpDownload(
+  currentPath: Ref<string>,
+  fileName: Ref<string>,
+) {
+  return useMutation({
+    mutationFn: async () => {
+      const base64 = await trpc.ftp.download.query({
+        path: `${currentPath.value}/${fileName.value}`,
+      })
+
+      const binary = atob(base64)
+      const len = binary.length
+      const buffer = new Uint8Array(len)
+      for (let i = 0; i < len; i++) buffer[i] = binary.charCodeAt(i)
+      const blob = new Blob([buffer])
+
+      const url = URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = fileName.value
+      a.click()
+      URL.revokeObjectURL(url)
+    },
   })
 }
