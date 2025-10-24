@@ -25,28 +25,28 @@ router.post(
   '/upload',
   upload.single('file'),
   async (req, res): Promise<any> => {
-    const targetDir = path.join(process.cwd(), 'ftp-node')
+    const targetDir = path.join(process.cwd(), 'temp_uploads')
 
     try {
+      const client = await getFtpClient()
       const file = req.file
-      const currentPath = req.body.currentPath || '/ftp-node'
-      if (!file) {
+      if (!file)
         return res.status(400).json({ error: 'No file uploaded' })
-      }
 
       await fs.mkdir(targetDir, { recursive: true })
-
       const targetPath = path.join(targetDir, file.originalname)
 
       await fs.writeFile(targetPath, file.buffer)
 
+      const currentPath = req.body.currentPath
+        ? path.posix.join(client.rootDir!, req.body.currentPath)
+        : client.rootDir!
+
       const remotePath = path.posix.join(currentPath, file.originalname)
 
-      const client = await getFtpClient()
       await client.uploadFrom(targetPath, remotePath)
 
       await fs.unlink(targetPath)
-
       await cleanUpDir(targetDir)
 
       res.json({

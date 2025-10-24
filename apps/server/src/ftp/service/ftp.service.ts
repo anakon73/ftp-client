@@ -6,6 +6,7 @@ import type { Client } from 'basic-ftp'
 import type { FileEntry } from 'packages/trpc'
 
 import { getFileType } from '../../utils/fileType'
+import { buildFtpPath } from '../../utils/resolveFtpPath'
 import type { FtpService } from '../types'
 
 export class FtpServiceImpl implements FtpService {
@@ -23,8 +24,12 @@ export class FtpServiceImpl implements FtpService {
     this._client = client
   }
 
+  private getPathWithRootDir(path: string): string {
+    return buildFtpPath(this.client, path)
+  }
+
   async list(path: string): Promise<FileEntry[]> {
-    await this.client.cd(path)
+    await this.client.cd(this.getPathWithRootDir(path))
 
     const list = await this.client.list()
 
@@ -42,33 +47,39 @@ export class FtpServiceImpl implements FtpService {
 
   async delete(path: string, type: FileEntry['type']): Promise<void> {
     if (type === 'directory')
-      await this.client.removeDir(path)
-    else await this.client.remove(path)
+      await this.client.removeDir(this.getPathWithRootDir(path))
+    else await this.client.remove(this.getPathWithRootDir(path))
   }
 
   async rename(oldPath: string, newPath: string): Promise<void> {
-    await this.client.rename(oldPath, newPath)
+    await this.client.rename(
+      this.getPathWithRootDir(oldPath),
+      this.getPathWithRootDir(newPath),
+    )
   }
 
   async createDirectory(path: string, name: string): Promise<void> {
-    await this.client.ensureDir(`${path}/${name}`)
+    await this.client.ensureDir(`${this.getPathWithRootDir(path)}/${name}`)
   }
 
   async move(oldPath: string, newPath: string): Promise<void> {
-    await this.client.rename(oldPath, newPath)
+    await this.client.rename(
+      this.getPathWithRootDir(oldPath),
+      this.getPathWithRootDir(newPath),
+    )
   }
 
   async copy(oldPath: string, newPath: string): Promise<void> {
     const tempPath = path.join(__dirname, 'temp-file')
 
     try {
-      await this.client.downloadTo(tempPath, oldPath)
+      await this.client.downloadTo(tempPath, this.getPathWithRootDir(oldPath))
 
       const fileBuffer = fs.readFileSync(tempPath)
 
       const fileStream = createReadStream(fileBuffer)
 
-      await this.client.uploadFrom(fileStream, newPath)
+      await this.client.uploadFrom(fileStream, this.getPathWithRootDir(newPath))
     }
     catch (error) {
       console.error('FTP copy failed', error)

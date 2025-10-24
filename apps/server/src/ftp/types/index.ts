@@ -1,6 +1,8 @@
-import type { Client, FTPResponse } from 'basic-ftp'
+import type { Client } from 'basic-ftp'
 import type { FileEntry } from 'packages/trpc'
 import type { Writable } from 'node:stream'
+
+export type ExtendedFtpClient = Client & { rootDir?: string }
 
 export interface FtpService {
   readonly client: Client
