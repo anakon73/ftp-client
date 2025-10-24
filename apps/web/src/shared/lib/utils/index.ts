@@ -30,13 +30,14 @@ export function usePathParams() {
   const route = useRoute()
 
   const path = computed<string>({
-    get: () => {
-      return route.query.path ? String(route.query.path) : '/'
-    },
+    get: () => String(route.query.path || '/'),
     set: (newPath: string) => {
-      router.replace({ query: { ...route.query, path: newPath === '/'
-        ? undefined
-        : newPath } })
+      router.push({
+        query: {
+          ...route.query,
+          path: newPath === '/' ? undefined : newPath,
+        },
+      })
     },
   })
 
@@ -47,17 +48,21 @@ export function usePathParams() {
   }
 
   function goBack() {
-    if (path.value === '/' || path.value === '')
+    if (path.value === '/' || !path.value)
       return
 
     const segments = path.value.split('/').filter(Boolean)
     segments.pop()
-
     path.value = `/${segments.join('/')}`
   }
 
   function setFullPath(newPath: string) {
-    path.value = newPath
+    router.push({
+      query: {
+        ...route.query,
+        path: newPath === '/' ? undefined : newPath,
+      },
+    })
   }
 
   return { path, handleChangePath, goBack, setFullPath }
