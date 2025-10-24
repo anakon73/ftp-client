@@ -1,27 +1,30 @@
 import fs from 'node:fs'
 import path from 'node:path'
-import type { Writable } from 'node:stream'
+import { Readable, type Writable } from 'node:stream'
 import { createReadStream } from 'streamifier'
-import type { Client } from 'basic-ftp'
 import type { FileEntry } from 'packages/trpc'
 
 import { getFileType } from '../../utils/fileType'
 import { buildFtpPath } from '../../utils/resolveFtpPath'
-import type { FtpService } from '../types'
+import type { ExtendedFtpClient, FtpService } from '../types'
 
 export class FtpServiceImpl implements FtpService {
-  private _client: Client
+  private _client: ExtendedFtpClient
 
-  constructor(client: Client) {
+  constructor(client: ExtendedFtpClient) {
     this._client = client
   }
 
-  get client(): Client {
+  get client(): ExtendedFtpClient {
     return this._client
   }
 
-  set client(client: Client) {
+  set client(client: ExtendedFtpClient) {
     this._client = client
+  }
+
+  get rootDir() {
+    return (this.client as any).rootDir
   }
 
   private getPathWithRootDir(path: string): string {
@@ -42,7 +45,14 @@ export class FtpServiceImpl implements FtpService {
   }
 
   async download(remotePath: string, writable: Writable): Promise<void> {
-    await this.client.downloadTo(writable, remotePath)
+    const fullPath = path.posix.join((this.client as any).rootDir, remotePath)
+    await this.client.downloadTo(writable, fullPath)
+  }
+
+  async upload(remotePath: string, buffer: Buffer): Promise<void> {
+    const stream = Readable.from(buffer)
+    const fullPath = path.posix.join((this.client as any).rootDir!, remotePath)
+    await this.client.uploadFrom(stream, fullPath)
   }
 
   async delete(path: string, type: FileEntry['type']): Promise<void> {
