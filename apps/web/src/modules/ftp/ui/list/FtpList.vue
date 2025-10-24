@@ -13,7 +13,7 @@ import {
   useFtpList,
 } from '../../'
 
-const path = usePathParams()
+const { path, handleChangePath, goBack, setFullPath } = usePathParams()
 
 const { dots } = useDotsWithText('Loading')
 
@@ -23,41 +23,15 @@ const selectedItem = ref<FileEntry | null>(null)
 const showDelete = ref(false)
 const showRename = ref(false)
 
-function handleChangePath(newPath: string) {
-  path.value = path.value.endsWith('/')
-    ? path.value + newPath
-    : `${path.value}/${newPath}`
-}
-
-function goBack() {
-  if (path.value === '/' || path.value === '')
-    return
-
-  const segments = path.value.split('/').filter(Boolean)
-  segments.pop()
-
-  path.value = `/${segments.join('/')}`
-}
-
-function openRename(item: FileEntry) {
+function openModal(type: 'rename' | 'delete', item: FileEntry) {
   selectedItem.value = item
-  showDelete.value = false
-  showRename.value = true
+  showRename.value = type === 'rename'
+  showDelete.value = type === 'delete'
 }
 
-function openDelete(item: FileEntry) {
-  selectedItem.value = item
-  showDelete.value = true
-  showRename.value = false
-}
-
-function closeRename() {
+function closeModal() {
   selectedItem.value = null
   showRename.value = false
-}
-
-function closeDelete() {
-  selectedItem.value = null
   showDelete.value = false
 }
 
@@ -69,14 +43,14 @@ const sortedEntries = computed(() => sortFtpEntries(items.value ?? []))
     :path="path"
     :item="selectedItem"
     :open="showDelete"
-    @close="closeDelete"
+    @close="closeModal"
   />
   <FtpRename
     v-if="selectedItem && showRename"
     :path="path"
     :open="showRename"
     :name="selectedItem.name"
-    @close="closeRename"
+    @close="closeModal"
   />
 
   <div v-if="isLoading" class="w-16">
@@ -86,16 +60,24 @@ const sortedEntries = computed(() => sortFtpEntries(items.value ?? []))
     <p>You got an error loading ftp directory</p>
   </div>
   <div v-else>
-    <FtpToolbar :path="path" @go-back="goBack" />
+    <FtpToolbar :path="path" @go-back="goBack" @change-path="setFullPath" />
     <div class="rounded-md bg-slate-800">
-      <FtpListItem
-        v-for="item in sortedEntries"
-        :key="`${item.type}-${item.name}`"
-        :="item"
-        @rename="openRename(item)"
-        @delete="openDelete(item)"
-        @change-path="handleChangePath"
-      />
+      <p
+        v-if="sortedEntries.length === 0"
+        class="py-10 text-center text-xl font-bold text-zinc-200"
+      >
+        Directory is empty
+      </p>
+      <div v-else>
+        <FtpListItem
+          v-for="item in sortedEntries"
+          :key="`${item.type}-${item.name}`"
+          :="item"
+          @rename="openModal('rename', item)"
+          @delete="openModal('delete', item)"
+          @change-path="handleChangePath"
+        />
+      </div>
     </div>
   </div>
 </template>
