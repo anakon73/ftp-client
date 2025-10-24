@@ -40,14 +40,14 @@ const sortedEntries = computed(() => sortFtpEntries(items.value ?? []))
 
 <template>
   <FtpDeleteItem
-    :path="path"
+    :path
     :item="selectedItem"
     :open="showDelete"
     @close="closeModal"
   />
   <FtpRename
     v-if="selectedItem && showRename"
-    :path="path"
+    :path
     :open="showRename"
     :name="selectedItem.name"
     @close="closeModal"
@@ -60,7 +60,7 @@ const sortedEntries = computed(() => sortFtpEntries(items.value ?? []))
     <p>You got an error loading ftp directory</p>
   </div>
   <div v-else>
-    <FtpToolbar :path="path" @go-back="goBack" @change-path="setFullPath" />
+    <FtpToolbar :path @go-back="goBack" @change-path="setFullPath" />
     <div class="rounded-md bg-slate-800">
       <p
         v-if="sortedEntries.length === 0"
@@ -72,7 +72,8 @@ const sortedEntries = computed(() => sortFtpEntries(items.value ?? []))
         <FtpListItem
           v-for="item in sortedEntries"
           :key="`${item.type}-${item.name}`"
-          :="item"
+          :item
+          :path
           @rename="openModal('rename', item)"
           @delete="openModal('delete', item)"
           @change-path="handleChangePath"
