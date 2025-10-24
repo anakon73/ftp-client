@@ -6,12 +6,10 @@ import {
   ContextMenuTrigger,
 } from 'reka-ui'
 
-interface Slots {
+defineSlots<{
   default: () => any
   trigger: () => any
-}
-
-defineSlots<Slots>()
+}>()
 </script>
 
 <template>
