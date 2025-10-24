@@ -15,27 +15,25 @@ import {
   ContextMenuSeparator,
 } from '@/shared/ui/ContextMenu'
 
-interface Props {
-  name: string
-  size: number
-  type: FileEntry['type']
-}
+import { FtpDownload } from '../'
 
-interface Emits {
+const props = defineProps<{
+  item: FileEntry
+  path: string
+}>()
+
+const emits = defineEmits<{
   changePath: [path: string]
   delete: []
   rename: []
-}
+}>()
 
-const props = defineProps<Props>()
-
-const emits = defineEmits<Emits>()
-
-const { size, type } = toRefs(props)
+const { item } = toRefs(props)
+const { name, size, type } = toRefs(item.value)
 
 function handleClick() {
   if (type.value === 'directory') {
-    emits('changePath', props.name)
+    emits('changePath', name.value)
   }
 }
 
@@ -56,7 +54,7 @@ const sizeInBytes = computed(() => {
 })
 
 const icon = computed(() => {
-  switch (props.type) {
+  switch (type.value) {
     case 'directory':
       return Folder
     case 'symbolicLink':
@@ -105,12 +103,13 @@ const icon = computed(() => {
     </template>
 
     <div>
-      <ContextMenuItem :icon="Trash2" @click="emits('delete')">
-        Delete
-      </ContextMenuItem>
+      <FtpDownload v-if="type !== 'directory'" :path :name />
       <ContextMenuSeparator />
       <ContextMenuItem :icon="FilePen" @click="emits('rename')">
         Rename
+      </ContextMenuItem>
+      <ContextMenuItem :icon="Trash2" @click="emits('delete')">
+        Delete
       </ContextMenuItem>
     </div>
   </ContextMenu>
