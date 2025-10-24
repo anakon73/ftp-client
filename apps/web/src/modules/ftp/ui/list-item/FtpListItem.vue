@@ -103,8 +103,10 @@ const icon = computed(() => {
     </template>
 
     <div>
-      <FtpDownload v-if="type !== 'directory'" :path :name />
-      <ContextMenuSeparator />
+      <div v-if="type !== 'directory'">
+        <FtpDownload :path :name />
+        <ContextMenuSeparator />
+      </div>
       <ContextMenuItem :icon="FilePen" @click="emits('rename')">
         Rename
       </ContextMenuItem>
