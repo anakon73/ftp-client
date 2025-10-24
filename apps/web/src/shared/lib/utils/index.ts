@@ -40,5 +40,25 @@ export function usePathParams() {
     },
   })
 
-  return path
+  function handleChangePath(newPath: string) {
+    path.value = path.value.endsWith('/')
+      ? path.value + newPath
+      : `${path.value}/${newPath}`
+  }
+
+  function goBack() {
+    if (path.value === '/' || path.value === '')
+      return
+
+    const segments = path.value.split('/').filter(Boolean)
+    segments.pop()
+
+    path.value = `/${segments.join('/')}`
+  }
+
+  function setFullPath(newPath: string) {
+    path.value = newPath
+  }
+
+  return { path, handleChangePath, goBack, setFullPath }
 }
