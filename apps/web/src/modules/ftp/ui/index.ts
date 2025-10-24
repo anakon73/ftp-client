@@ -1,4 +1,5 @@
 export * from './back-button'
+export * from './breadcrumb'
 export * from './create-dir'
 export * from './delete-item'
 export * from './delete-item'
