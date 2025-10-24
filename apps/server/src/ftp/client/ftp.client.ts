@@ -26,5 +26,5 @@ export async function getFtpClient(): Promise<ExtendedFtpClient> {
   const list = await client.list(cwd)
   const rootDir: string = list.find(item => item.isDirectory)?.name ?? '';
   (client as ExtendedFtpClient).rootDir = `/${rootDir}`
-  return client
+  return client as ExtendedFtpClient
 }
