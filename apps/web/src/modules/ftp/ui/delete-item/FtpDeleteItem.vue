@@ -5,7 +5,7 @@ import type { FileEntry } from 'packages/trpc'
 import { FButton } from '@/shared/ui/FButton'
 import { FDialog, FDialogTitle } from '@/shared/ui/FDialog'
 
-import { useFtpDelete } from '../../'
+import { useFtpDelete } from '../../api'
 
 const props = defineProps<{
   open: boolean

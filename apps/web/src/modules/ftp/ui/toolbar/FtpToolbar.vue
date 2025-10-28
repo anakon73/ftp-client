@@ -1,11 +1,9 @@
 <script setup lang="ts">
-import {
-  FtpBackButton,
-  FtpBreadcrumb,
-  FtpCreateDir,
-  FtpRefreshButton,
-  FtpUpload,
-} from '../'
+import { FtpBackButton } from '../back-button'
+import { FtpBreadcrumb } from '../breadcrumb'
+import { FtpCreateDir } from '../create-dir'
+import { FtpRefreshButton } from '../refresh-button'
+import { FtpUpload } from '../upload'
 
 defineProps<{ path: string }>()
 defineEmits<{ goBack: [], changePath: [path: string] }>()

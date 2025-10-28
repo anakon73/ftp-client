@@ -5,7 +5,7 @@ import { RefreshCw } from 'lucide-vue-next'
 import { useRefreshQuery } from '@/shared/api'
 import { FButton } from '@/shared/ui/FButton'
 
-import { ftpKeys } from '../../'
+import { ftpKeys } from '../../api'
 
 const props = defineProps<{ path: string }>()
 

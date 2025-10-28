@@ -5,13 +5,13 @@ import type { FileEntry } from 'packages/trpc'
 import { useDotsWithText, usePathParams } from '@/shared/lib/utils'
 
 import { sortFtpEntries } from '../../lib'
+import { useFtpList } from '../../api'
 import {
   FtpDeleteItem,
   FtpListItem,
   FtpRename,
   FtpToolbar,
-  useFtpList,
-} from '../../'
+} from '../../ui'
 
 const { path, handleChangePath, goBack, setFullPath } = usePathParams()
 

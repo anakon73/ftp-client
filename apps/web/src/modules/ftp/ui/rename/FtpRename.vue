@@ -6,7 +6,7 @@ import { FDialog, FDialogTitle } from '@/shared/ui/FDialog'
 import { FInput } from '@/shared/ui/FInput'
 import { FButton } from '@/shared/ui/FButton'
 
-import { useFtpRename } from '../../'
+import { useFtpRename } from '../../api'
 
 const props = defineProps<{ name: string, open: boolean, path: string }>()
 

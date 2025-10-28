@@ -15,7 +15,7 @@ import {
   ContextMenuSeparator,
 } from '@/shared/ui/ContextMenu'
 
-import { FtpDownload } from '../'
+import { FtpDownload } from '../download'
 
 const props = defineProps<{
   item: FileEntry

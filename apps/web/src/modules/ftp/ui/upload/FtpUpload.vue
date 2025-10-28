@@ -5,7 +5,7 @@ import { Upload } from 'lucide-vue-next'
 import { FDialog } from '@/shared/ui/FDialog'
 import { FButton } from '@/shared/ui/FButton'
 
-import { useFtpUpload } from '../../'
+import { useFtpUpload } from '../../api'
 
 const props = defineProps<{ path: string }>()
 
