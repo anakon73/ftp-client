@@ -1,8 +1,8 @@
+<!-- @fallthroughAttributes true -->
 <script setup lang="ts">
-import type { InputHTMLAttributes } from 'vue'
 import { type ClassValue, cn } from '@/shared/lib/styles'
 
-interface Props extends /* @vue-ignore */ InputHTMLAttributes {
+interface Props {
   class?: ClassValue
 }
 
@@ -14,7 +14,7 @@ const vModel = defineModel()
 <template>
   <input
     v-model="vModel"
-    :="$attrs"
+    v-bind="$attrs"
     type="text"
     :class="cn(
       `

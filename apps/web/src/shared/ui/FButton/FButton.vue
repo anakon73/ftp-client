@@ -6,7 +6,6 @@ import { button, type Variant } from '.'
 interface Props extends /* @vue-ignore */ ButtonHTMLAttributes {
   class?: ClassValue
   as?: Component | AsTag
-  type?: HTMLButtonElement['type']
   variant?: Variant
   icon?: boolean
 }
