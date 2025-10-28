@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { computed, toRefs } from 'vue'
 import { cn } from '@/shared/lib/styles'
 
 const props = defineProps<{ path: string }>()

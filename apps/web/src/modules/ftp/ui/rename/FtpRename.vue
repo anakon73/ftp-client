@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { ref, toRefs } from 'vue'
 import { Check } from 'lucide-vue-next'
 
 import { FDialog, FDialogTitle } from '@/shared/ui/FDialog'

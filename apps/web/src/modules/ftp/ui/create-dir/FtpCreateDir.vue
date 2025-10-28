@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { ref, toRefs } from 'vue'
-import { onKeyDown } from '@vueuse/core'
 import { FolderPlus, Plus } from 'lucide-vue-next'
 
 import { FButton } from '@/shared/ui/FButton'
@@ -28,7 +26,7 @@ function createDir() {
     mutate(name.value, { onSuccess: onClose })
 }
 
-onKeyDown('Enter', createDir)
+onKeyStroke('Enter', createDir, { eventName: 'keydown' })
 </script>
 
 <template>

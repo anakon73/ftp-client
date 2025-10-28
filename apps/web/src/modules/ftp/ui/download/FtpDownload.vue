@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import { toRefs } from 'vue'
 import { Download } from 'lucide-vue-next'
-
 import { ContextMenuItem } from '@/shared/ui/ContextMenu'
 import { useFtpDownload } from '../../api'
 

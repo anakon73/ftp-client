@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ButtonHTMLAttributes, Component } from 'vue'
+import type { ButtonHTMLAttributes } from 'vue'
 import { type AsTag, type ClassValue, cn } from '@/shared/lib/styles'
 import { button, type Variant } from '.'
 

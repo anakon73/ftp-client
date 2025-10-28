@@ -1,5 +1,3 @@
-import axios from 'axios'
-import type { Ref } from 'vue'
 import { useMutation, useQuery } from '@tanstack/vue-query'
 import type { FileEntry } from 'packages/trpc'
 

@@ -1,6 +1,3 @@
-import { computed, onMounted, onUnmounted, ref } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
-
 export function useDots(interval = 300) {
   const dots = ref('')
   let timer: ReturnType<typeof setInterval> | null = null

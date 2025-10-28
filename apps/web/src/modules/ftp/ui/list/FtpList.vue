@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
 import type { FileEntry } from 'packages/trpc'
-
 import { useDotsWithText, usePathParams } from '@/shared/lib/utils'
 
 import { sortFtpEntries } from '../../lib'

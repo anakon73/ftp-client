@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { toRefs } from 'vue'
 import { RefreshCw } from 'lucide-vue-next'
 
 import { useRefreshQuery } from '@/shared/api'

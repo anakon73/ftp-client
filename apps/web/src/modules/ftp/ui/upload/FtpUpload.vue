@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { ref, toRefs } from 'vue'
 import { Upload } from 'lucide-vue-next'
 
 import { FDialog } from '@/shared/ui/FDialog'

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { toRefs } from 'vue'
 import type { FileEntry } from 'packages/trpc'
 
 import { FButton } from '@/shared/ui/FButton'
