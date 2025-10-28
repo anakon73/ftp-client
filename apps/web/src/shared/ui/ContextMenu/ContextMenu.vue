@@ -5,10 +5,11 @@ import {
   ContextMenuRoot,
   ContextMenuTrigger,
 } from 'reka-ui'
+import type { ContextMenuItem, ContextMenuSeparator } from '.'
 
 defineSlots<{
-  default: () => any
-  trigger: () => any
+  default: () => Array<typeof ContextMenuItem | typeof ContextMenuSeparator>
+  trigger: () => VNode
 }>()
 </script>
 
@@ -24,7 +25,7 @@ defineSlots<{
           min-w-72 rounded-md border border-slate-200 bg-white p-2 shadow-md
         "
       >
-        <slot />
+        <slot name="default" />
       </ContextMenuContent>
     </ContextMenuPortal>
   </ContextMenuRoot>

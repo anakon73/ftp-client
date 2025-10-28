@@ -101,17 +101,19 @@ const icon = computed(() => {
       </div>
     </template>
 
-    <div>
-      <div v-if="type !== 'directory'">
-        <FtpDownload :path :name />
-        <ContextMenuSeparator />
+    <template #default>
+      <div>
+        <div v-if="type !== 'directory'">
+          <FtpDownload :path :name />
+          <ContextMenuSeparator />
+        </div>
+        <ContextMenuItem :icon="FilePen" @click="emits('rename')">
+          Rename
+        </ContextMenuItem>
+        <ContextMenuItem :icon="Trash2" @click="emits('delete')">
+          Delete
+        </ContextMenuItem>
       </div>
-      <ContextMenuItem :icon="FilePen" @click="emits('rename')">
-        Rename
-      </ContextMenuItem>
-      <ContextMenuItem :icon="Trash2" @click="emits('delete')">
-        Delete
-      </ContextMenuItem>
-    </div>
+    </template>
   </ContextMenu>
 </template>
