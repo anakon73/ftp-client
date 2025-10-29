@@ -4,9 +4,8 @@
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
 
     "paths": {
-      "packages/trpc": ["../../packages/trpc/src"],
-      "packages/trpc/*": ["../../packages/trpc/src/*"],
-      "server/*": ["../server/src/*"],
+      "trpc": ["../server/src/trpc/index.ts"],
+      "trpc/*": ["../server/src/trpc/*"],
       "@/*": ["./src/*"]
     },
     /* Linting */

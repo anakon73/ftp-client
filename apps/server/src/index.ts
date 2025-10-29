@@ -1,10 +1,10 @@
 import cors from 'cors'
 import dotenv from 'dotenv'
 import express from 'express'
-import { appRouter } from 'packages/trpc'
 import * as trpcExpress from '@trpc/server/adapters/express'
 
 import { createContext } from './context'
+import { appRouter } from './trpc'
 
 dotenv.config()
 

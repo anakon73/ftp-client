@@ -2,8 +2,8 @@ import * as v from 'valibot'
 import { Writable } from 'node:stream'
 import path from 'node:path'
 
+import type { FileEntry } from '../../types'
 import { publicProcedure, router } from '../trpc'
-import type { FileEntry } from '../types'
 
 export const ftpRouter = router({
   list: publicProcedure

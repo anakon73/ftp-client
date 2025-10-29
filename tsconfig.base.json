@@ -4,12 +4,6 @@
     "baseUrl": ".",
     "module": "ESNext",
     "moduleResolution": "Node",
-    "paths": {
-      "server/*": ["./apps/server/src/*"],
-      "packages/trpc": ["./packages/trpc/src"],
-      "packages/trpc/*": ["./packages/trpc/src/*"],
-      "web/*": ["./apps/web/src/*"]
-    },
     "resolveJsonModule": true,
     "strict": true,
     "esModuleInterop": true,
