@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { Download } from 'lucide-vue-next'
-import { ContextMenuItem } from '@/shared/ui/ContextMenu'
 import { useFtpDownload } from '../../api'
 
 const props = defineProps<{ path: string, name: string }>()

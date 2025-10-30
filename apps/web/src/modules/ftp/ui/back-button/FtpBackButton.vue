@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { ArrowLeft } from 'lucide-vue-next'
-import { FButton } from '@/shared/ui/FButton'
 
 defineProps<{ path: string }>()
 defineEmits<{ goBack: [] }>()

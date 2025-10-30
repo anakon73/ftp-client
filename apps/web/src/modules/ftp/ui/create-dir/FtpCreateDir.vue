@@ -1,10 +1,5 @@
 <script setup lang="ts">
 import { FolderPlus, Plus } from 'lucide-vue-next'
-
-import { FButton } from '@/shared/ui/FButton'
-import { FDialog } from '@/shared/ui/FDialog'
-import { FInput } from '@/shared/ui/FInput'
-
 import { useFtpCreateDir } from '../../api'
 
 const props = defineProps<{ path: string }>()

@@ -6,13 +6,7 @@ import {
   Folder,
   Trash2,
 } from 'lucide-vue-next'
-import type { FileEntry } from 'packages/trpc'
-
-import {
-  ContextMenu,
-  ContextMenuItem,
-  ContextMenuSeparator,
-} from '@/shared/ui/ContextMenu'
+import type { FileEntry } from 'server/types'
 
 import { FtpDownload } from '../download'
 

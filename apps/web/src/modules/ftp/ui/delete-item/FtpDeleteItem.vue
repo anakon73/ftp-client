@@ -1,9 +1,5 @@
 <script setup lang="ts">
-import type { FileEntry } from 'packages/trpc'
-
-import { FButton } from '@/shared/ui/FButton'
-import { FDialog, FDialogTitle } from '@/shared/ui/FDialog'
-
+import type { FileEntry } from 'server/types'
 import { useFtpDelete } from '../../api'
 
 const props = defineProps<{
