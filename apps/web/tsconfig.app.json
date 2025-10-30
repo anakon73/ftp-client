@@ -6,6 +6,7 @@
     "paths": {
       "trpc": ["../server/src/trpc/index.ts"],
       "trpc/*": ["../server/src/trpc/*"],
+      "server/*": ["../server/src/*"],
       "@/*": ["./src/*"]
     },
     /* Linting */
@@ -19,6 +20,7 @@
     "src/**/*.ts",
     "src/**/*.tsx",
     "src/**/*.vue",
-    "auto-imports.d.ts"
+    "auto-imports.d.ts",
+    "components.d.ts"
   ]
 }
