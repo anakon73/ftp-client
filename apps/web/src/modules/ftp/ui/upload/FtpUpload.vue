@@ -4,9 +4,7 @@ import { useFtpUpload } from '../../api'
 
 const props = defineProps<{ path: string }>()
 
-const { path } = toRefs(props)
-
-const { mutate } = useFtpUpload(path)
+const { mutate } = useFtpUpload(props.path)
 
 const open = ref(false)
 

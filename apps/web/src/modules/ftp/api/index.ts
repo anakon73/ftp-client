@@ -5,78 +5,85 @@ import { trpc } from '@/shared/lib/trpc'
 import { useRefreshQuery } from '@/shared/api'
 
 const keys = {
-  all: (path: Ref<string>) => (['ftp', path]),
+  all: (path: MaybeRefOrGetter<string>) => (['ftp', path]),
 } as const
 
 export { keys as ftpKeys }
 
-export function useFtpList(path: Ref<string>) {
+export function useFtpList(path: MaybeRefOrGetter<string>) {
   return useQuery({
     queryKey: keys.all(path),
-    queryFn: async () => await trpc.ftp.list.query({ path: path.value }),
+    queryFn: async () => await trpc.ftp.list.query({ path: toValue(path) }),
   })
 }
 
-export function useFtpDelete(currentPath: Ref<string>) {
+export function useFtpDelete(path: MaybeRefOrGetter<string>) {
   const { refreshQuery } = useRefreshQuery()
 
   return useMutation({
-    mutationFn: async (item: FileEntry) =>
-      await trpc.ftp.delete.mutate(
-        { path: `${currentPath.value}/${item.name}`, type: item.type },
-      ),
-    onSuccess: () => refreshQuery(keys.all(currentPath), true),
+    mutationFn: async (item: FileEntry) => {
+      return await trpc.ftp.delete.mutate(
+        { path: `${toValue(path)}/${item.name}`, type: item.type },
+      )
+    },
+    onSuccess: () => refreshQuery(keys.all(path)),
   })
 }
 
-export function useFtpUpload(currentPath: Ref<string>) {
+export function useFtpUpload(path: MaybeRefOrGetter<string>) {
+  const { refreshQuery } = useRefreshQuery()
+
   return useMutation({
     mutationFn: async (file: File) => {
       const arrayBuffer = await file.arrayBuffer()
       const base64 = btoa(String.fromCharCode(...new Uint8Array(arrayBuffer)))
       return trpc.ftp.upload.mutate({
-        path: currentPath.value,
+        path: toValue(path),
         fileName: file.name,
         base64,
       })
     },
+    onSuccess: () => refreshQuery(keys.all(path)),
   })
 }
 
-export function useFtpCreateDir(currentPath: Ref<string>) {
+export function useFtpCreateDir(path: MaybeRefOrGetter<string>) {
   const { refreshQuery } = useRefreshQuery()
 
   return useMutation({
-    mutationFn: async (name: string) =>
-      await trpc.ftp.createDirectory.mutate({ path: currentPath.value, name }),
-    onSuccess: () => refreshQuery(keys.all(currentPath), true),
+    mutationFn: async (name: MaybeRefOrGetter<string>) =>
+      await trpc
+        .ftp
+        .createDirectory
+        .mutate({ path: toValue(path), name: toValue(name) }),
+    onSuccess: () => refreshQuery(keys.all(path)),
   })
 }
 
-export function useFtpRename(currentPath: Ref<string>) {
+export function useFtpRename(path: MaybeRefOrGetter<string>) {
   const { refreshQuery } = useRefreshQuery()
 
   return useMutation({
     mutationFn: async (
-      { newName, oldName }: { oldName: string, newName: string },
-    ) =>
-      await trpc.ftp.rename.mutate({
-        oldPath: `${currentPath.value}/${oldName}`,
-        newPath: `${currentPath.value}/${newName}`,
-      }),
-    onSuccess: () => refreshQuery(keys.all(currentPath), true),
+      { newName, oldName }:
+      { oldName: MaybeRefOrGetter<string>, newName: MaybeRefOrGetter<string> },
+    ) => {
+      return await trpc.ftp.rename.mutate({
+        oldPath: `${toValue(path)}/${toValue(oldName)}`,
+        newPath: `${toValue(path)}/${toValue(newName)}`,
+      })
+    },
+    onSuccess: () => refreshQuery(keys.all(path)),
   })
 }
 
-export function useFtpDownload(
-  currentPath: Ref<string>,
-  fileName: Ref<string>,
-) {
+export function useFtpDownload(path: MaybeRefOrGetter<string>) {
   return useMutation({
-    mutationFn: async () => {
-      const base64 = await trpc.ftp.download.query({
-        path: `${currentPath.value}/${fileName.value}`,
-      })
+    mutationFn: async (fileName: MaybeRefOrGetter<string>) => {
+      const base64 = await trpc
+        .ftp
+        .download
+        .query({ path: `${toValue(path)}/${toValue(fileName)}` })
 
       const binary = atob(base64)
       const len = binary.length
@@ -87,7 +94,7 @@ export function useFtpDownload(
       const url = URL.createObjectURL(blob)
       const a = document.createElement('a')
       a.href = url
-      a.download = fileName.value
+      a.download = toValue(fileName)
       a.click()
       URL.revokeObjectURL(url)
     },

@@ -4,9 +4,7 @@ import { useFtpCreateDir } from '../../api'
 
 const props = defineProps<{ path: string }>()
 
-const { path } = toRefs(props)
-
-const { mutate } = useFtpCreateDir(path)
+const { mutate } = useFtpCreateDir(props.path)
 
 const open = ref(false)
 const name = ref('')

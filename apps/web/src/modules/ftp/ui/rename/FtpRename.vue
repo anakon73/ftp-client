@@ -6,22 +6,17 @@ const props = defineProps<{ name: string, open: boolean, path: string }>()
 
 const emits = defineEmits<{ close: [] }>()
 
-const { name, path } = toRefs(props)
+const { mutate } = useFtpRename(props.path)
 
-const { mutate } = useFtpRename(path)
-
-const newName = ref(name.value ?? '')
+const newName = ref(props.name ?? '')
 
 function close() {
-  name.value = ''
+  newName.value = ''
   emits('close')
 }
 
 function rename() {
-  mutate(
-    { oldName: name.value, newName: newName.value },
-    { onSuccess: () => emits('close') },
-  )
+  mutate({ oldName: props.name, newName }, { onSuccess: () => emits('close') })
 }
 </script>
 

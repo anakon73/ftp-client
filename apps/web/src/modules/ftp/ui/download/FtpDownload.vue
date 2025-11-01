@@ -4,13 +4,11 @@ import { useFtpDownload } from '../../api'
 
 const props = defineProps<{ path: string, name: string }>()
 
-const { path, name } = toRefs(props)
-
-const { mutate } = useFtpDownload(path, name)
+const { mutate } = useFtpDownload(props.path)
 </script>
 
 <template>
-  <ContextMenuItem :icon="Download" @click="mutate">
+  <ContextMenuItem :icon="Download" @click="mutate(() => name)">
     Download
   </ContextMenuItem>
 </template>

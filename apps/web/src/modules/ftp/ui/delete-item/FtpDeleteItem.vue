@@ -10,15 +10,13 @@ const props = defineProps<{
 
 const emits = defineEmits<{ close: [] }>()
 
-const { item, path } = toRefs(props)
-
-const { mutate } = useFtpDelete(path)
+const { mutate } = useFtpDelete(props.path)
 
 function deleteItem() {
-  if (!item.value)
+  if (!props.item)
     return
 
-  mutate(item.value, { onSuccess: () => emits('close') })
+  mutate(props.item, { onSuccess: () => emits('close') })
 }
 </script>
 
