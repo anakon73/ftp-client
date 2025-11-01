@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from '@tanstack/vue-query'
-import type { FileEntry } from 'packages/trpc'
+import type { FileEntry } from 'server/types'
 
 import { trpc } from '@/shared/lib/trpc'
 import { useRefreshQuery } from '@/shared/api'

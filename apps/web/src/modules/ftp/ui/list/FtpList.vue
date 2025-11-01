@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { FileEntry } from 'packages/trpc'
+import type { FileEntry } from 'server/types'
 import { useDotsWithText, usePathParams } from '@/shared/lib/utils'
 
 import { sortFtpEntries } from '../../lib'

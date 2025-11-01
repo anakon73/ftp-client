@@ -1,4 +1,4 @@
-import type { FileEntry } from 'packages/trpc'
+import type { FileEntry } from 'server/types'
 
 export function sortFtpEntries(entries: FileEntry[]): FileEntry[] {
   return entries.slice().sort((a, b) => {
