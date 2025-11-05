@@ -1,1 +1,1 @@
-export { default as FtpDeleteItem } from './FtpDeleteItem.vue'
+export { default as FtpDelete } from './FtpDelete.vue'
