@@ -34,12 +34,13 @@ export function useFtpUpload(path: MaybeRefOrGetter<string>) {
   const { refreshQuery } = useRefreshQuery()
 
   return useMutation({
-    mutationFn: async (file: File) => {
-      const arrayBuffer = await file.arrayBuffer()
+    mutationFn: async (file: MaybeRefOrGetter<File>) => {
+      const fileValue = toValue(file)
+      const arrayBuffer = await fileValue.arrayBuffer()
       const base64 = btoa(String.fromCharCode(...new Uint8Array(arrayBuffer)))
       return trpc.ftp.upload.mutate({
         path: toValue(path),
-        fileName: file.name,
+        fileName: fileValue.name,
         base64,
       })
     },
