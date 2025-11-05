@@ -1,12 +1,13 @@
 <script setup lang="ts">
-import { FtpBackButton } from '../back-button'
-import { FtpBreadcrumb } from '../breadcrumb'
-import { FtpCreateDir } from '../create-dir'
-import { FtpRefreshButton } from '../refresh-button'
-import { FtpUpload } from '../upload'
+import { usePathParams } from '@/shared/lib/utils'
 
-defineProps<{ path: string }>()
-defineEmits<{ goBack: [], changePath: [path: string] }>()
+import { FtpBackButton } from '../back-button'
+import { FtpRefreshButton } from '../refresh-button'
+import { FtpCreateDirButton } from '../create-dir'
+import { FtpUploadButton } from '../upload'
+import { FtpBreadcrumb } from '../breadcrumb'
+
+const { path, goBack, setFullPath } = usePathParams()
 </script>
 
 <template>
@@ -14,13 +15,13 @@ defineEmits<{ goBack: [], changePath: [path: string] }>()
     <div class="mb-2 flex justify-between">
       <div class="flex gap-2">
         <FtpRefreshButton :path />
-        <FtpBackButton :path @go-back="$emit('goBack')" />
+        <FtpBackButton :path @go-back="goBack" />
       </div>
       <div class="flex gap-2">
-        <FtpCreateDir :path />
-        <FtpUpload :path />
+        <FtpCreateDirButton :path />
+        <FtpUploadButton :path />
       </div>
     </div>
-    <FtpBreadcrumb :path @change-path="$emit('changePath', $event)" />
+    <FtpBreadcrumb :path @change-path="setFullPath" />
   </div>
 </template>
