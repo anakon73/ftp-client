@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { FtpList } from '@/modules/ftp'
+import { FtpList, FtpToolbar } from '@/modules/ftp'
 </script>
 
 <template>
@@ -9,6 +9,8 @@ import { FtpList } from '@/modules/ftp'
       sm:px-0
     "
   >
+    <FtpToolbar />
     <FtpList />
   </div>
+  <RouterView />
 </template>
