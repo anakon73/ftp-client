@@ -70,11 +70,7 @@ const icon = computed(() => {
         @click="handleClick"
       >
         <div class="flex items-center gap-2">
-          <component
-            :is="icon"
-            :size="20"
-            class="shrink-0"
-          />
+          <FIcon :icon :size="20" class="shrink-0" />
           <p
             class="
               max-w-[150px] truncate font-medium

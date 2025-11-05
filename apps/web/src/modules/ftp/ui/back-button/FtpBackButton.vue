@@ -12,6 +12,6 @@ defineEmits<{ goBack: [] }>()
     icon
     @click="$emit('goBack')"
   >
-    <ArrowLeft :size="16" />
+    <FIcon :icon="ArrowLeft" />
   </FButton>
 </template>

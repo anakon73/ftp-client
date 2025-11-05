@@ -16,6 +16,6 @@ function handleClick() {
 
 <template>
   <FButton icon variant="secondary" @click="handleClick">
-    <RefreshCw :size="16" />
+    <FIcon :icon="RefreshCw" />
   </FButton>
 </template>

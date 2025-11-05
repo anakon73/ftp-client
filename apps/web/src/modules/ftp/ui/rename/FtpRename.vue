@@ -28,7 +28,7 @@ function rename() {
     <div class="flex items-center justify-between gap-4">
       <FInput v-model="newName" />
       <FButton icon variant="success" @click="rename">
-        <Check stroke-width="2" :size="16" />
+        <FIcon :icon="Check" stroke-width="2" />
       </FButton>
     </div>
   </FDialog>

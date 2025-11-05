@@ -18,7 +18,7 @@ const props = defineProps<{ class?: string, icon?: LucideIcon }>()
       icon ? 'flex items-center gap-2' : '',
       props.class)"
   >
-    <component :is="icon" v-if="icon" :size="16" />
+    <FIcon :is="icon" v-if="icon" :icon />
     <slot />
   </ContextMenuItem>
 </template>
