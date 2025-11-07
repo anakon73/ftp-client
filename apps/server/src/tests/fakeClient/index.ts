@@ -1,4 +1,5 @@
-import type { FileEntry } from 'packages/trpc'
+import type { FileEntry } from '../../types'
+import { getEntryType } from '../../utils/fileType'
 
 const fileType = {
   unknown: 0,
@@ -15,7 +16,7 @@ export class FakeClient {
     this.addDir('/')
 
     for (const entity of entities) {
-      if (entity.type === fileType.directory) {
+      if (entity.type === getEntryType(fileType.directory)) {
         this.addDir(entity.name)
       }
       else {
@@ -57,7 +58,7 @@ export class FakeClient {
 
     this.entities.set(path, {
       name: path === '/' ? path : this.getName(path),
-      type: fileType.directory,
+      type: getEntryType(fileType.directory),
       size: 0,
       modifiedAt: new Date(),
     })
@@ -67,7 +68,7 @@ export class FakeClient {
     const parent = this.getParent(path)
     if (
       !parent || !this.entities.has(parent)
-      || this.entities.get(parent)!.type !== fileType.directory
+      || this.entities.get(parent)!.type !== getEntryType(fileType.directory)
     ) {
       throw new Error(
         `Parent directory does not exist or is not a directory: ${parent}`,
@@ -76,7 +77,7 @@ export class FakeClient {
 
     this.entities.set(path, {
       name: this.getName(path),
-      type: fileType.file,
+      type: getEntryType(fileType.file),
       size,
       modifiedAt,
     })
@@ -106,7 +107,9 @@ export class FakeClient {
     if (!this.entities.has(normalized))
       throw new Error(`File or directory does not exist: ${normalized}`)
 
-    if (this.entities.get(normalized)!.type === fileType.directory) {
+    if (
+      this.entities.get(normalized)!.type === getEntryType(fileType.directory)
+    ) {
       const prefix = `${normalized}/`
 
       for (const key of this.entities.keys()) {

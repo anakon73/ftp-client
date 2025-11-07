@@ -1,6 +1,7 @@
 import type { Writable } from 'node:stream'
 import type { FTPResponse } from 'basic-ftp'
-import type { FileEntry } from 'packages/trpc'
+
+import type { FileEntry } from '../../types'
 
 export interface IFtpFakeClient {
   isInitialized: () => Promise<boolean>
