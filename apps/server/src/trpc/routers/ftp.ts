@@ -11,6 +11,11 @@ export const ftpRouter = router({
     .query(async ({ input, ctx }) => {
       return (await ctx).ftp.list(input.path)
     }),
+  getEntryType: publicProcedure
+    .input(v.object({ path: v.optional(v.string(), '/') }))
+    .query(async ({ input, ctx }) => {
+      return (await ctx).ftp.getEntryType(input.path)
+    }),
   delete: publicProcedure
     .input(v.object({
       path: v.string(),
