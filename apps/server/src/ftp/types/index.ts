@@ -1,12 +1,14 @@
 import type { Client } from 'basic-ftp'
-import type { FileEntry } from 'packages/trpc'
 import type { Writable } from 'node:stream'
+
+import type { FileEntry } from '../../types'
 
 export type ExtendedFtpClient = Client & { rootDir?: string }
 
 export interface FtpService {
   readonly client: ExtendedFtpClient
   list: (path: string) => Promise<FileEntry[]>
+  getEntryType: (path: string) => Promise<FileEntry['type'] | null>
   download: (remotePath: string, writable: Writable) => Promise<void>
   upload: (remotePath: string, buffer: Buffer) => Promise<void>
   delete: (path: string, type: FileEntry['type']) => Promise<void>

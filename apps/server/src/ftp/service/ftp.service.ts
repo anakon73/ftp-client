@@ -2,10 +2,12 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { Readable, type Writable } from 'node:stream'
 import { createReadStream } from 'streamifier'
-import type { FileEntry } from 'packages/trpc'
+import { FileType } from 'basic-ftp'
 
-import { getFileType } from '../../utils/fileType'
+import { getEntryType } from '../../utils/fileType'
 import { buildFtpPath } from '../../utils/resolveFtpPath'
+import type { FileEntry } from '../../types'
+
 import type { ExtendedFtpClient, FtpService } from '../types'
 
 export class FtpServiceImpl implements FtpService {
@@ -38,10 +40,32 @@ export class FtpServiceImpl implements FtpService {
 
     return list.map(item => ({
       name: item.name,
-      type: getFileType(item.type),
+      type: getEntryType(item.type),
       size: item.size,
       modifiedAt: item.modifiedAt,
     }))
+  }
+
+  async getEntryType(path: string): Promise<FileEntry['type'] | null> {
+    if (path === '/' || !path)
+      return getEntryType(FileType.Directory)
+
+    try {
+      await this.client.list(this.getPathWithRootDir(path))
+      return getEntryType(FileType.Directory)
+    }
+    catch {
+      const parentPath = path.split('/').slice(0, -1).join('/') || '/'
+      const targetName = path.split('/').pop()
+
+      const list = await this.list(parentPath)
+      const entry = list.find(e => e.name === targetName)
+
+      if (!entry)
+        return null
+
+      return entry.type
+    }
   }
 
   async download(remotePath: string, writable: Writable): Promise<void> {
