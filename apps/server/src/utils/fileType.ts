@@ -1,7 +1,7 @@
 import { FileType } from 'basic-ftp'
-import type { FileEntry } from 'packages/trpc'
+import type { FileEntry } from '../types'
 
-export function getFileType(type: FileType): FileEntry['type'] {
+export function getEntryType(type: FileType): FileEntry['type'] {
   switch (type) {
     case FileType.Directory:
       return 'directory'
