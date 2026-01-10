@@ -8,7 +8,7 @@ const { mutate } = useFtpDownload(props.path)
 </script>
 
 <template>
-  <ContextMenuItem :icon="Download" @click="mutate(() => name)">
+  <FContextMenuItem :icon="Download" @click="mutate(() => props.name)">
     Download
-  </ContextMenuItem>
+  </FContextMenuItem>
 </template>
