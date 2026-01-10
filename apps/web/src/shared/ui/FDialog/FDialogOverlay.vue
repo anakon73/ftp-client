@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { DialogOverlay } from 'reka-ui'
 </script>
 
 <template>

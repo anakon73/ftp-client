@@ -1,10 +1,4 @@
 <script setup lang="ts">
-import {
-  DialogContent,
-  DialogPortal,
-  DialogRoot,
-} from 'reka-ui'
-
 import { FDialogOverlay } from '.'
 
 defineProps<{ open: boolean }>()
@@ -25,6 +19,7 @@ defineEmits<{ close: [] }>()
         "
       >
         <slot />
+        <DialogDescription />
       </DialogContent>
     </DialogPortal>
   </DialogRoot>
