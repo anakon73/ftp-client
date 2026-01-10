@@ -6,17 +6,33 @@ const props = defineProps<{
   open: boolean
   item: FileEntry | null
   path: string
+  isFile?: boolean
 }>()
 
-const emits = defineEmits<{ close: [] }>()
+const emits = defineEmits<{ close: [], goBack: [] }>()
 
-const { mutate } = useFtpDelete(props.path)
+const { path, item } = toRefs(props)
+
+const basePath = computed(
+  () => props.isFile
+    ? path.value.split('/').slice(0, -1).join('/')
+    : path.value,
+)
+
+const { mutate } = useFtpDelete(basePath)
 
 function deleteItem() {
   if (!props.item)
     return
 
-  mutate(props.item, { onSuccess: () => emits('close') })
+  if (item.value === null)
+    return
+
+  mutate(item.value, { onSuccess: () => {
+    emits('close')
+    if (props.isFile)
+      emits('goBack')
+  } })
 }
 </script>
 
