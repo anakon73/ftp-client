@@ -7,6 +7,8 @@ import { FtpCreateDirButton } from '../create-dir'
 import { FtpUploadButton } from '../upload'
 import { FtpBreadcrumb } from '../breadcrumb'
 
+defineProps<{ isFile?: boolean }>()
+
 const { path, goBack, setFullPath } = usePathParams()
 </script>
 
@@ -14,10 +16,10 @@ const { path, goBack, setFullPath } = usePathParams()
   <div class="mb-2">
     <div class="mb-2 flex justify-between">
       <div class="flex gap-2">
-        <FtpRefreshButton :path />
+        <FtpRefreshButton v-if="!isFile" :path />
         <FtpBackButton :path @go-back="goBack" />
       </div>
-      <div class="flex gap-2">
+      <div v-if="!isFile" class="flex gap-2">
         <FtpCreateDirButton :path />
         <FtpUploadButton :path />
       </div>
