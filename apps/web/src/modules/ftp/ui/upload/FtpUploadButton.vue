@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { Upload } from 'lucide-vue-next'
-import { useModalRoute } from '@/shared/lib/utils'
+import { useModal } from '@/shared/lib/utils'
 
-const { openModal } = useModalRoute('FtpUpload')
+const { open } = useModal()
 </script>
 
 <template>
-  <FButton icon variant="secondary" @click="openModal">
+  <FButton icon variant="secondary" @click="open('upload')">
     <FIcon :icon="Upload" />
   </FButton>
 </template>
