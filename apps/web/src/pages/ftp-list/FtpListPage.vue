@@ -12,5 +12,4 @@ import { FtpList, FtpToolbar } from '@/modules/ftp'
     <FtpToolbar />
     <FtpList />
   </div>
-  <RouterView />
 </template>

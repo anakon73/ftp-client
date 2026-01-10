@@ -1,31 +1,17 @@
 import type { RouteRecordInfo, RouteRecordRaw } from 'vue-router'
-import { FtpCreateDir, FtpUpload } from '@/modules/ftp'
-import { FtpPage } from './ftp'
+import { FtpWrapperPage } from './ftp-wrapper'
 
 export const routes: RouteRecordRaw[] = [
   {
+    path: '/:pathMatch(.*)*',
     name: 'Ftp',
-    path: '/',
-    component: FtpPage,
-    children: [
-      {
-        path: 'upload',
-        name: 'FtpUpload',
-        component: FtpUpload,
-      },
-      {
-        path: 'create-dir',
-        name: 'FtpCreateDir',
-        component: FtpCreateDir,
-      },
-    ],
+    component: FtpWrapperPage,
   },
+
 ]
 
 export interface RouteNamedMap {
-  Ftp: RouteRecordInfo<'Ftp', '/'>
-  FtpUpload: RouteRecordInfo<'FtpUpload', '/upload'>
-  FtpCreateDir: RouteRecordInfo<'FtpCreateDir', '/create-dir'>
+  Ftp: RouteRecordInfo<'Ftp', '/:pathMatch(.*)*'>
 }
 
 declare module 'vue-router' {
