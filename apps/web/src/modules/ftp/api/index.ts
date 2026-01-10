@@ -5,7 +5,9 @@ import { trpc } from '@/shared/lib/trpc'
 import { useRefreshQuery } from '@/shared/api'
 
 const keys = {
-  all: (path: MaybeRefOrGetter<string>) => (['ftp', path]),
+  all: (path: MaybeRefOrGetter<string>) => (['ftp', 'all', path]),
+  entryType: (path: MaybeRefOrGetter<string>) => (['ftp', 'entry-type', path]),
+  file: (path: MaybeRefOrGetter<string>) => (['ftp', 'file', path]),
 } as const
 
 export { keys as ftpKeys }
@@ -14,6 +16,26 @@ export function useFtpList(path: MaybeRefOrGetter<string>) {
   return useQuery({
     queryKey: keys.all(path),
     queryFn: async () => await trpc.ftp.list.query({ path: toValue(path) }),
+  })
+}
+
+export async function useGetEntryTypeRaw(path: MaybeRefOrGetter<string>) {
+  return await trpc.ftp.getEntryType.query({ path: toValue(path) })
+}
+
+export function useGetEntryType(path: MaybeRefOrGetter<string>) {
+  return useQuery({
+    queryKey: keys.entryType(path),
+    queryFn: async () => await useGetEntryTypeRaw(path),
+  })
+}
+
+export function useGetFile(
+  path: MaybeRefOrGetter<string>,
+) {
+  return useQuery({
+    queryKey: keys.file(path),
+    queryFn: async () => await trpc.ftp.getFile.query({ path: toValue(path) }),
   })
 }
 
@@ -66,12 +88,12 @@ export function useFtpRename(path: MaybeRefOrGetter<string>) {
 
   return useMutation({
     mutationFn: async (
-      { newName, oldName }:
-      { oldName: MaybeRefOrGetter<string>, newName: MaybeRefOrGetter<string> },
+      { name, oldName }:
+      { oldName: MaybeRefOrGetter<string>, name: MaybeRefOrGetter<string> },
     ) => {
       return await trpc.ftp.rename.mutate({
         oldPath: `${toValue(path)}/${toValue(oldName)}`,
-        newPath: `${toValue(path)}/${toValue(newName)}`,
+        newPath: `${toValue(path)}/${toValue(name)}`,
       })
     },
     onSuccess: () => refreshQuery(keys.all(path)),
