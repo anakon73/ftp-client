@@ -1,50 +1,34 @@
 <script setup lang="ts">
 import type { FileEntry } from 'server/types'
-import { useDotsWithText, usePathParams } from '@/shared/lib/utils'
+import {
+  type FtpModal,
+  useDotsWithText,
+  useModal,
+  usePathParams,
+} from '@/shared/lib/utils'
 
 import { sortFtpEntries } from '../../lib'
 import { useFtpList } from '../../api'
-import { FtpDelete, FtpListItem, FtpRename } from '../../ui'
+import { FtpListItem, FtpListModals } from '../../ui'
 
 const { path, handleChangePath } = usePathParams()
-
 const { dots } = useDotsWithText('Loading')
+const { open } = useModal()
 
 const { data: items, isLoading, isError } = useFtpList(path)
 
 const selectedItem = ref<FileEntry | null>(null)
-const showDelete = ref(false)
-const showRename = ref(false)
 
-function openModal(type: 'rename' | 'delete', item: FileEntry) {
+function openModal(name: FtpModal, item: FileEntry | null = null) {
+  open(name)
   selectedItem.value = item
-  showRename.value = type === 'rename'
-  showDelete.value = type === 'delete'
-}
-
-function closeModal() {
-  selectedItem.value = null
-  showRename.value = false
-  showDelete.value = false
 }
 
 const sortedEntries = computed(() => sortFtpEntries(items.value ?? []))
 </script>
 
 <template>
-  <FtpDelete
-    :path
-    :item="selectedItem"
-    :open="showDelete"
-    @close="closeModal"
-  />
-  <FtpRename
-    v-if="selectedItem && showRename"
-    :path
-    :open="showRename"
-    :name="selectedItem.name"
-    @close="closeModal"
-  />
+  <FtpListModals :selected-item :path="path" />
 
   <div class="rounded-md bg-slate-800">
     <div v-if="isLoading" class="w-16">
