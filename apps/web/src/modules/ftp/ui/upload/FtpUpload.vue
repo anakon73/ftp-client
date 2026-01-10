@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { Upload } from 'lucide-vue-next'
-import { useModalRoute, usePathParams } from '@/shared/lib/utils'
 import { useFtpUpload } from '../../api'
 
-const { path } = usePathParams()
-const { open, close } = useModalRoute('FtpUpload')
-const { mutate } = useFtpUpload(path)
+const props = defineProps<{ path: string, open: boolean }>()
+
+const emits = defineEmits<{ close: [] }>()
+
+const { mutate } = useFtpUpload(props.path)
 
 const file = ref<File | null>(null)
 
@@ -14,12 +15,12 @@ function setFile(e: Event) {
 }
 
 function submit() {
-  file.value && mutate(file.value, { onSuccess: close })
+  file.value && mutate(file.value, { onSuccess: () => emits('close') })
 }
 </script>
 
 <template>
-  <FDialog :open @close="close">
+  <FDialog :open @close="emits('close')">
     <div class="col-span-full">
       <div
         class="
@@ -63,7 +64,7 @@ function submit() {
             <FButton variant="primary" @click="submit">
               Apply
             </FButton>
-            <FButton variant="destructive" @click="close">
+            <FButton variant="destructive" @click="emits('close')">
               Cancel
             </FButton>
           </div>
