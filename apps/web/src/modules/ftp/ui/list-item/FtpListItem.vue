@@ -8,6 +8,7 @@ import {
 } from 'lucide-vue-next'
 import type { FileEntry } from 'server/types'
 
+import { formatSizeInBytes } from '@/shared/lib/utils'
 import { FtpDownload } from '../download'
 
 const props = defineProps<{
@@ -25,26 +26,8 @@ const { item } = toRefs(props)
 const { name, size, type } = toRefs(item.value)
 
 function handleClick() {
-  if (type.value === 'directory') {
-    emits('changePath', name.value)
-  }
+  emits('changePath', name.value)
 }
-
-const sizeInBytes = computed(() => {
-  if (!size.value)
-    return '0 B'
-
-  const units = ['B', 'KB', 'MB', 'GB', 'TB']
-  let fileSize = size.value
-  let unitIndex = 0
-
-  while (fileSize >= 1024 && unitIndex < units.length - 1) {
-    fileSize /= 1024
-    unitIndex++
-  }
-
-  return `${fileSize.toFixed(1)} ${units[unitIndex]}`
-})
 
 const icon = computed(() => {
   switch (type.value) {
@@ -59,7 +42,7 @@ const icon = computed(() => {
 </script>
 
 <template>
-  <ContextMenu>
+  <FContextMenu>
     <template #trigger>
       <div
         class="
@@ -86,7 +69,7 @@ const icon = computed(() => {
           v-if="size && type === 'file'"
           class="text-sm whitespace-nowrap text-slate-500"
         >
-          {{ sizeInBytes }}
+          {{ formatSizeInBytes(size) }}
         </div>
       </div>
     </template>
@@ -95,15 +78,15 @@ const icon = computed(() => {
       <div>
         <div v-if="type !== 'directory'">
           <FtpDownload :path :name />
-          <ContextMenuSeparator />
+          <FContextMenuSeparator />
         </div>
-        <ContextMenuItem :icon="FilePen" @click="emits('rename')">
+        <FContextMenuItem :icon="FilePen" @click="emits('rename')">
           Rename
-        </ContextMenuItem>
-        <ContextMenuItem :icon="Trash2" @click="emits('delete')">
+        </FContextMenuItem>
+        <FContextMenuItem :icon="Trash2" @click="emits('delete')">
           Delete
-        </ContextMenuItem>
+        </FContextMenuItem>
       </div>
     </template>
-  </ContextMenu>
+  </FContextMenu>
 </template>
