@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { ContextMenuItem } from 'reka-ui'
 import type { LucideIcon } from 'lucide-vue-next'
 
 import { cn } from '@/shared/lib/styles'

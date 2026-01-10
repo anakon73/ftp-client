@@ -1,14 +1,8 @@
 <script setup lang="ts">
-import {
-  ContextMenuContent,
-  ContextMenuPortal,
-  ContextMenuRoot,
-  ContextMenuTrigger,
-} from 'reka-ui'
-import type { ContextMenuItem, ContextMenuSeparator } from '.'
+import type { FContextMenuItem, FContextMenuSeparator } from '.'
 
 defineSlots<{
-  default: () => Array<typeof ContextMenuItem | typeof ContextMenuSeparator>
+  default: () => Array<typeof FContextMenuItem | typeof FContextMenuSeparator>
   trigger: () => VNode
 }>()
 </script>
