@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { FolderPlus } from 'lucide-vue-next'
-import { useModalRoute } from '@/shared/lib/utils'
+import { useModal } from '@/shared/lib/utils'
 
-const { openModal } = useModalRoute('FtpCreateDir')
+const { open } = useModal()
 </script>
 
 <template>
-  <FButton icon variant="secondary" @click="openModal">
+  <FButton icon variant="secondary" @click="open('create-dir')">
     <FIcon :icon="FolderPlus" />
   </FButton>
 </template>
